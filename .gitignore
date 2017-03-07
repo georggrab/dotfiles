@@ -1,0 +1,8 @@
+*
+!.xmonad/
+!.xmonad/xmonad.hs
+!.xmobarrc
+!.zshrc
+!.gitignore
+!.Xresources
+!.vimrc

@@ -1,0 +1,39 @@
+Config {
+    bgColor = "black"
+  , position = Top
+  , sepChar = "%"
+  , alignSep= "}{"
+  , font ="xft:Terminus:size=9"
+  , template = "%StdinReader%}{ %bpr% | %coretemp% | %battery% | %date%"
+  , commands = 
+  [ Run CoreTemp [ "--template", "<core0>°C"
+             , "--Low"      , "70"        -- units: v°C
+             , "--High"     , "80"        -- units: °C
+             , "--low"      , "green"
+             , "--normal"   , "orange"
+             , "--high"     , "red"
+             ] 5
+           , Run Battery        [ "--template" , "<acstatus> @ <left>%"
+           , "--Low"      , "10"        -- units: %
+           , "--High"     , "80"        -- units: %
+           , "--low"      , "red"
+           , "--normal"   , "orange"
+           , "--high"     , "green"
+
+           , "--" -- battery specific options
+                     -- discharging status
+                     , "-o" , "<left>% (<timeleft>)"
+                     -- AC "on" status
+                     , "-O" , "<fc=#dAA520>Charging</fc>"
+                     -- charged status
+                     , "-i" , "<fc=#00A000>Charged</fc>"
+           ] 50
+           , Run Date "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+           --, Run Volume "default" "Master" [] 10
+           , Run StdinReader
+           , Run BufferedPipeReader "bpr"
+           [ (0, False, "/tmp/statuspipe")
+           
+           ]
+        ]
+}
