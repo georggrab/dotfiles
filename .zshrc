@@ -1,12 +1,11 @@
-# Path to your oh-my-zsh configuration.
-function print_icon(){}
-ZSH=$HOME/.oh-my-zsh
+# Language Settings
+export LANG="en_US.UTF-8"
+export TERM="rxvt-256color"
 
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH=$HOME/.oh-my-zsh
 
 alias pacr='sudo pacman -Rns'
 alias sim='sudo vim'
-alias ya='yaourt --noconfirm'
 alias viartor='sudo -H -u t0r'
 alias intercept='sudo tcpflow -i any -C -J port'
 
@@ -18,13 +17,6 @@ bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
 zstyle ':completion:*' menu select
 
-source $ZSH/oh-my-zsh.sh
-
-function asmcmp () {
-    local bnm=${$1%.*}
-    nasm -f elf $1
-    ld -m elf_i386 -s -o $bnm $bnm.o
-}
 
 function s () {
     echo $PWD >~/.last_dir
@@ -35,8 +27,29 @@ function r () {
     cd $(cat ~/.last_dir)
 }
 
-function lexcomp () {
-    flex $1 && gcc lex.yy.c -lfl -o lex.out
+function proxy () {
+    export HTTP_PROXY=localhost:3128
+    export HTTPS_PROXY=localhost:3128
+    export http_proxy=localhost:3128
+    export https_proxy=localhost:3128
 }
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+function proxy_off () {
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset http_proxy
+    unset https_proxy
+}
+
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
+
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel9k ]; then
+	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+fi
+
+ZSH_THEME="powerlevel9k/powerlevel9k"
+source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+proxy
+source $ZSH/oh-my-zsh.sh

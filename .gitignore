@@ -6,3 +6,4 @@
 !.gitignore
 !.Xresources
 !.vimrc
+!.dfconfig/*

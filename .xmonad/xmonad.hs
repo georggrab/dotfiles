@@ -37,7 +37,7 @@ main = do
     { terminal = "urxvt"
     , startupHook = setWMName "LG3D"
     , workspaces = myWorkspaces
-    , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
+    , handleEventHook = docksEventHook <+> handleEventHook defaultConfig <+> fullscreenEventHook
     , layoutHook = myLayoutHook
     , modMask  = mod4Mask
     , manageHook = myManageHook
@@ -72,8 +72,8 @@ main = do
     ] 
     
 myManageHook :: ManageHook
-myManageHook = insertPosition End Newer <+> manageWindows
-    <+> manageDocks <+>
+myManageHook = insertPosition End Newer <+> manageDocks <+> manageWindows
+    <+>
         manageHook def
 
 manageWindows :: ManageHook

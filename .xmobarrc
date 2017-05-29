@@ -3,7 +3,7 @@ Config {
   , position = Top
   , sepChar = "%"
   , alignSep= "}{"
-  , font ="xft:Terminus:size=9"
+  , font ="xft:Source Code Pro Medium:pixelsize=12"
   , template = "%StdinReader%}{ %bpr% | %coretemp% | %battery% | %date%"
   , commands = 
   [ Run CoreTemp [ "--template", "<core0>°C"
